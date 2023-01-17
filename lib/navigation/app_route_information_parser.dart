@@ -10,13 +10,21 @@ class AppRouteInformationParser extends RouteInformationParser<AppRouteConfigura
       return AppRouteConfiguration.home();
     }
 
-    // Handle '/book/:id'
+    // Handle '/artist/:artistId'
     if (uri.pathSegments.length == 2) {
-      if (uri.pathSegments[0] != 'book') return AppRouteConfiguration.unknown();
-      var remaining = uri.pathSegments[1];
-      var id = int.tryParse(remaining);
+      if (uri.pathSegments[0] != 'artist') return AppRouteConfiguration.unknown();
+      final id = int.tryParse(uri.pathSegments[1]);
       if (id == null) return AppRouteConfiguration.unknown();
-      return AppRouteConfiguration.details(id);
+      return AppRouteConfiguration.artist(id);
+    }
+
+    // Handle '/artist/:artistId/:trackId'
+    if (uri.pathSegments.length == 3) {
+      if (uri.pathSegments[0] != 'artist') return AppRouteConfiguration.unknown();
+      final artistId = int.tryParse(uri.pathSegments[1]);
+      final trackId = int.tryParse(uri.pathSegments[2]);
+      if (artistId == null || trackId == null) return AppRouteConfiguration.unknown();
+      return AppRouteConfiguration.track(artistId, trackId);
     }
 
     // Handle unknown routes
@@ -31,8 +39,12 @@ class AppRouteInformationParser extends RouteInformationParser<AppRouteConfigura
     if (configuration.isHomePage) {
       return const RouteInformation(location: '/');
     }
-    if (configuration.isDetailsPage) {
-      return RouteInformation(location: '/book/${configuration.id}');
+    if (configuration.isArtistPage) {
+      return RouteInformation(location: '/artist/${configuration.artistId}');
+    }
+    if (configuration.isTrackPage) {
+      return RouteInformation(
+          location: '/artist/${configuration.artistId}/${configuration.trackId}');
     }
     return const RouteInformation(location: '/404');
   }

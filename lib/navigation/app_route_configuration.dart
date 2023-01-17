@@ -1,18 +1,27 @@
 class AppRouteConfiguration {
-  final int? id;
+  final int? artistId;
+  final int? trackId;
   final bool isUnknown;
 
   AppRouteConfiguration.home()
-      : id = null,
+      : artistId = null,
+        trackId = null,
         isUnknown = false;
 
-  AppRouteConfiguration.details(this.id) : isUnknown = false;
+  AppRouteConfiguration.artist(this.artistId)
+      : trackId = null,
+        isUnknown = false;
+
+  AppRouteConfiguration.track(this.artistId, this.trackId) : isUnknown = false;
 
   AppRouteConfiguration.unknown()
-      : id = null,
+      : artistId = null,
+        trackId = null,
         isUnknown = true;
 
-  bool get isHomePage => id == null;
+  bool get isHomePage => (artistId == null) && (trackId == null);
 
-  bool get isDetailsPage => id != null;
+  bool get isArtistPage => artistId != null && (trackId == null);
+
+  bool get isTrackPage => (artistId != null) && (trackId != null);
 }

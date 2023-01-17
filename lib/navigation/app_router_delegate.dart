@@ -1,52 +1,66 @@
 import 'package:flutter/material.dart';
-import 'package:navitator_experiments/data/book.dart';
+import 'package:navitator_experiments/data/artist.dart';
+import 'package:navitator_experiments/data/artists.dart';
+import 'package:navitator_experiments/data/track.dart';
 import 'package:navitator_experiments/navigation/app_route_configuration.dart';
-import 'package:navitator_experiments/screens/book_details_screen.dart';
-import 'package:navitator_experiments/screens/book_list_screen.dart';
+import 'package:navitator_experiments/screens/artist_details_screen.dart';
+import 'package:navitator_experiments/screens/artist_list_screen.dart';
 import 'package:navitator_experiments/screens/page_not_found_screen.dart';
+import 'package:navitator_experiments/screens/track_details_screen.dart';
 
 class AppRouterDelegate extends RouterDelegate<AppRouteConfiguration>
     with ChangeNotifier, PopNavigatorRouterDelegateMixin<AppRouteConfiguration> {
   @override
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
-  Book? _selectedBook;
+  Artist? _selectedArtist;
+  Track? _selectedTrack;
   bool show404 = false;
-
-  List<Book> books = [
-    Book(title: 'Left Hand of Darkness', author: 'Ursula K. Le Guin'),
-    Book(title: 'Too Like the Lightning', author: 'Ada Palmer'),
-    Book(title: 'Kindred', author: 'Octavia E. Butler'),
-  ];
 
   @override
   AppRouteConfiguration get currentConfiguration {
     if (show404) {
       return AppRouteConfiguration.unknown();
     }
-    return _selectedBook == null
-        ? AppRouteConfiguration.home()
-        : AppRouteConfiguration.details(books.indexOf(_selectedBook!));
+    if (_selectedArtist == null) {
+      return AppRouteConfiguration.home();
+    } else if (_selectedTrack != null) {
+      final artistId = artists.indexOf(_selectedArtist!);
+      final trackId = _selectedArtist?.tracks.indexOf(_selectedTrack!);
+      return AppRouteConfiguration.track(artistId, trackId);
+    } else {
+      return AppRouteConfiguration.artist(artists.indexOf(_selectedArtist!));
+    }
   }
 
   @override
   Future<void> setNewRoutePath(AppRouteConfiguration configuration) async {
     if (configuration.isUnknown) {
-      _selectedBook = null;
+      _selectedArtist = null;
       show404 = true;
       return;
     }
 
-    if (configuration.isDetailsPage) {
-      if (configuration.id == null) return;
-      if (configuration.id! < 0 || configuration.id! > books.length - 1) {
+    if (configuration.isArtistPage) {
+      if (configuration.artistId == null) return;
+      if (configuration.artistId! < 0 || configuration.artistId! > artists.length - 1) {
         show404 = true;
         return;
       }
+      _selectedArtist = artists[configuration.artistId!];
+    }
 
-      _selectedBook = books[configuration.id!];
+    if (configuration.isTrackPage) {
+      if (configuration.trackId == null) return;
+      if (_selectedArtist == null) return;
+      if (configuration.trackId! < 0 ||
+          configuration.trackId! > _selectedArtist!.tracks.length - 1) {
+        show404 = true;
+        return;
+      }
+      _selectedTrack = artists[configuration.artistId!].tracks[configuration.trackId!];
     } else {
-      _selectedBook = null;
+      _selectedArtist = null;
     }
 
     show404 = false;
@@ -58,23 +72,30 @@ class AppRouterDelegate extends RouterDelegate<AppRouteConfiguration>
       key: navigatorKey,
       pages: [
         MaterialPage(
-          child: BooksListScreen(
-            books: books,
-            onTapped: _onBookTapped,
+          child: ArtistListScreen(
+            artists: artists,
+            onTapped: _onArtistTapped,
           ),
         ),
         if (show404)
           const MaterialPage(child: PageNotFoundScreen())
-        else if (_selectedBook != null)
-          MaterialPage(child: BookDetailsScreen(book: _selectedBook!))
+        else if (_selectedArtist != null)
+          if (_selectedTrack != null)
+            MaterialPage(child: TrackDetailsScreen(track: _selectedTrack!))
+          else
+            MaterialPage(
+                child: ArtistDetailsScreen(
+              artist: _selectedArtist!,
+              onTapped: _onTrackTapped,
+            ))
       ],
       onPopPage: (route, result) {
         if (!route.didPop(result)) {
           return false;
         }
 
-        // Update the list of pages by setting _selectedBook to null
-        _selectedBook = null;
+        _selectedArtist = null;
+        _selectedTrack = null;
         show404 = false;
         notifyListeners();
 
@@ -83,8 +104,13 @@ class AppRouterDelegate extends RouterDelegate<AppRouteConfiguration>
     );
   }
 
-  void _onBookTapped(Book book) {
-    _selectedBook = book;
+  void _onArtistTapped(Artist artist) {
+    _selectedArtist = artist;
+    notifyListeners();
+  }
+
+  void _onTrackTapped(Track track) {
+    _selectedTrack = track;
     notifyListeners();
   }
 }
