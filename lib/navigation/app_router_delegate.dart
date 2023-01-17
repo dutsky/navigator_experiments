@@ -94,8 +94,11 @@ class AppRouterDelegate extends RouterDelegate<AppRouteConfiguration>
           return false;
         }
 
-        _selectedArtist = null;
-        _selectedTrack = null;
+        if (_selectedArtist != null && _selectedTrack != null) {
+          _selectedTrack = null;
+        } else {
+          _selectedArtist = null;
+        }
         show404 = false;
         notifyListeners();
 

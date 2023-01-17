@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:navitator_experiments/navigation/app_route_configuration.dart';
 
+/// Парсер роутов. Отвечает за конверсию строковых путей в объекты приложения и наоборот
 class AppRouteInformationParser extends RouteInformationParser<AppRouteConfiguration> {
   @override
   Future<AppRouteConfiguration> parseRouteInformation(RouteInformation routeInformation) async {

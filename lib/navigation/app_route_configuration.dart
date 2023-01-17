@@ -1,3 +1,4 @@
+/// Конфигурация роута -- представление пути в виде объектов приложения.
 class AppRouteConfiguration {
   final int? artistId;
   final int? trackId;
