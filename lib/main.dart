@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:navitator_experiments/navigation/app_route_information_parser.dart';
-import 'package:navitator_experiments/navigation/app_router_delegate.dart';
+import 'package:navigator_experiments/navigation/app_route_information_parser.dart';
+import 'package:navigator_experiments/navigation/app_router_delegate.dart';
 
 void main() {
   runApp(const MyApp());

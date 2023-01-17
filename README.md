@@ -1,4 +1,4 @@
-# navitator_experiments
+# navigator_experiments
 
 A new Flutter project.
 

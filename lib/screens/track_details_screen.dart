@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:navitator_experiments/data/track.dart';
+import 'package:navigator_experiments/data/track.dart';
 
 class TrackDetailsScreen extends StatelessWidget {
   final Track track;

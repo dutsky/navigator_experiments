@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:navitator_experiments/data/artist.dart';
-import 'package:navitator_experiments/data/artists.dart';
-import 'package:navitator_experiments/data/track.dart';
-import 'package:navitator_experiments/navigation/app_route_configuration.dart';
-import 'package:navitator_experiments/screens/artist_details_screen.dart';
-import 'package:navitator_experiments/screens/artist_list_screen.dart';
-import 'package:navitator_experiments/screens/page_not_found_screen.dart';
-import 'package:navitator_experiments/screens/track_details_screen.dart';
+import 'package:navigator_experiments/data/artist.dart';
+import 'package:navigator_experiments/data/artists.dart';
+import 'package:navigator_experiments/data/track.dart';
+import 'package:navigator_experiments/navigation/app_route_configuration.dart';
+import 'package:navigator_experiments/screens/artist_details_screen.dart';
+import 'package:navigator_experiments/screens/artist_list_screen.dart';
+import 'package:navigator_experiments/screens/page_not_found_screen.dart';
+import 'package:navigator_experiments/screens/track_details_screen.dart';
 
 class AppRouterDelegate extends RouterDelegate<AppRouteConfiguration>
     with ChangeNotifier, PopNavigatorRouterDelegateMixin<AppRouteConfiguration> {

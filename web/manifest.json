@@ -1,6 +1,6 @@
 {
-    "name": "navitator_experiments",
-    "short_name": "navitator_experiments",
+    "name": "navigator_experiments",
+    "short_name": "navigator_experiments",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

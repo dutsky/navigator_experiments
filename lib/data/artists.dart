@@ -1,5 +1,5 @@
-import 'package:navitator_experiments/data/artist.dart';
-import 'package:navitator_experiments/data/track.dart';
+import 'package:navigator_experiments/data/artist.dart';
+import 'package:navigator_experiments/data/track.dart';
 
 const List<Artist> artists = [
   Artist(

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:navitator_experiments/data/artist.dart';
+import 'package:navigator_experiments/data/artist.dart';
 
 class ArtistListScreen extends StatelessWidget {
   final List<Artist> artists;

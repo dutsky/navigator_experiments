@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:navitator_experiments/data/artist.dart';
-import 'package:navitator_experiments/data/track.dart';
+import 'package:navigator_experiments/data/artist.dart';
+import 'package:navigator_experiments/data/track.dart';
 
 class ArtistDetailsScreen extends StatelessWidget {
   final Artist artist;
